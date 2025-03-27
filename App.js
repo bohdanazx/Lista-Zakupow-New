@@ -7,6 +7,7 @@ import {
   SectionList,
   StyleSheet,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,7 +17,6 @@ export default function App() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [store, setStore] = useState("");
-  const [filterPrice, setFilterPrice] = useState("");
   const [filterStore, setFilterStore] = useState("");
 
   useEffect(() => {
@@ -72,8 +72,7 @@ export default function App() {
     const byStore = filterStore
       ? p.store.toLowerCase().includes(filterStore.toLowerCase())
       : true;
-    const byPrice = filterPrice ? p.price <= parseFloat(filterPrice) : true;
-    return byStore && byPrice;
+    return byStore;
   });
 
   const sections = [
@@ -89,49 +88,48 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView style={styles.container}>
-        <Text style={styles.title}>🛒 Lista Zakupów</Text>
-
-        <TextInput
-          placeholder="Nazwa"
-          value={name}
-          onChangeText={setName}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Cena"
-          value={price}
-          onChangeText={setPrice}
-          style={styles.input}
-          keyboardType="numeric"
-        />
-        <TextInput
-          placeholder="Sklep"
-          value={store}
-          onChangeText={setStore}
-          style={styles.input}
-        />
-        <TouchableOpacity style={styles.button} onPress={addProduct}>
-          <Text style={styles.buttonText}>Dodaj produkt</Text>
-        </TouchableOpacity>
-
-        <TextInput
-          placeholder="Filtruj sklep"
-          value={filterStore}
-          onChangeText={setFilterStore}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Filtruj cenę (do)"
-          value={filterPrice}
-          onChangeText={setFilterPrice}
-          style={styles.input}
-          keyboardType="numeric"
-        />
-
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <SectionList
           sections={sections}
           keyExtractor={(item) => item.id.toString()}
+          ListHeaderComponent={
+            <View style={{ paddingTop: 40 }}>
+              <Text style={styles.title}>🛒 Lista Zakupów</Text>
+
+              <TextInput
+                placeholder="Nazwa"
+                value={name}
+                onChangeText={setName}
+                style={styles.input}
+              />
+              <TextInput
+                placeholder="Cena"
+                value={price}
+                onChangeText={setPrice}
+                style={styles.input}
+                keyboardType="numeric"
+              />
+              <TextInput
+                placeholder="Sklep"
+                value={store}
+                onChangeText={setStore}
+                style={styles.input}
+              />
+              <TouchableOpacity style={styles.button} onPress={addProduct}>
+                <Text style={styles.buttonText}>Dodaj produkt</Text>
+              </TouchableOpacity>
+
+              <TextInput
+                placeholder="Filtruj sklep"
+                value={filterStore}
+                onChangeText={setFilterStore}
+                style={styles.input}
+              />
+            </View>
+          }
           renderSectionHeader={({ section: { title } }) => (
             <Text style={styles.sectionHeader}>{title}</Text>
           )}
@@ -147,6 +145,8 @@ export default function App() {
               </TouchableOpacity>
             </View>
           )}
+          contentContainerStyle={{ paddingBottom: 40 }}
+          keyboardShouldPersistTaps="handled"
         />
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 20,
+    textAlign: "center",
   },
   input: {
     backgroundColor: "#eee",
