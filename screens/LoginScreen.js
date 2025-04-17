@@ -1,4 +1,3 @@
-// screens/LoginScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -18,16 +17,16 @@ export default function LoginScreen({ navigation }) {
     if (username && password) {
       navigation.replace("Home");
     } else {
-      alert("Введіть логін і пароль");
+      alert("Please enter your username and password.");
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Вхід</Text>
+      <Text style={styles.title}>Login</Text>
 
       <TextInput
-        placeholder="Логін"
+        placeholder="Username"
         style={styles.input}
         value={username}
         onChangeText={setUsername}
@@ -36,7 +35,7 @@ export default function LoginScreen({ navigation }) {
 
       <View style={styles.passwordContainer}>
         <TextInput
-          placeholder="Пароль"
+          placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!showPassword}
@@ -48,7 +47,7 @@ export default function LoginScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <Button title="Увійти" onPress={handleLogin} />
+      <Button title="Log In" onPress={handleLogin} />
     </View>
   );
 }

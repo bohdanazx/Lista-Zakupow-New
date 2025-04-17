@@ -1,4 +1,3 @@
-// screens/HomeScreen.js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -49,19 +48,19 @@ export default function HomeScreen({ navigation }) {
   );
 
   const sections = [
-    { title: "Nie kupione", data: filtered.filter((p) => !p.isBought) },
-    { title: "Kupione", data: filtered.filter((p) => p.isBought) },
+    { title: "To Buy", data: filtered.filter((p) => !p.isBought) },
+    { title: "Bought", data: filtered.filter((p) => p.isBought) },
   ];
 
   return (
     <View style={styles.container}>
       <Button
-        title="Dodaj produkt"
+        title="Add Product"
         onPress={() => navigation.navigate("AddProduct")}
       />
 
       <TextInput
-        placeholder="Filtruj po sklepie"
+        placeholder="Filter by store"
         style={styles.input}
         value={filterStore}
         onChangeText={setFilterStore}

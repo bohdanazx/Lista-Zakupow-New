@@ -1,4 +1,3 @@
-// screens/AddProductScreen.js
 import React, { useState } from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,7 +9,7 @@ export default function AddProductScreen({ navigation }) {
 
   const addNewProduct = async () => {
     if (!name || !price || !store) {
-      alert("Заповніть всі поля");
+      alert("Please fill in all fields.");
       return;
     }
 
@@ -33,25 +32,25 @@ export default function AddProductScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <TextInput
-        placeholder="Nazwa"
+        placeholder="Product name"
         value={name}
         onChangeText={setName}
         style={styles.input}
       />
       <TextInput
-        placeholder="Cena"
+        placeholder="Price"
         value={price}
         onChangeText={setPrice}
         style={styles.input}
         keyboardType="numeric"
       />
       <TextInput
-        placeholder="Sklep"
+        placeholder="Store"
         value={store}
         onChangeText={setStore}
         style={styles.input}
       />
-      <Button title="Zapisz" onPress={addNewProduct} />
+      <Button title="Save" onPress={addNewProduct} />
     </View>
   );
 }

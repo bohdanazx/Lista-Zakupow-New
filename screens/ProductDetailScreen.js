@@ -1,4 +1,3 @@
-// screens/ProductDetailScreen.js
 import React from "react";
 import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -41,28 +40,26 @@ export default function ProductDetailScreen({ route, navigation }) {
   };
 
   if (!product) {
-    return <Text>Brak danych o produkcie</Text>;
+    return <Text>No product data available.</Text>;
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{product.name}</Text>
-      <Text style={styles.text}>Cena: {product.price} zł</Text>
-      <Text style={styles.text}>Sklep: {product.store}</Text>
+      <Text style={styles.text}>Price: {product.price} zł</Text>
+      <Text style={styles.text}>Store: {product.store}</Text>
       <Text style={styles.text}>
-        Status: {product.isBought ? "Kupione" : "Nie kupione"}
+        Status: {product.isBought ? "Bought" : "Not bought"}
       </Text>
 
       <View style={{ marginVertical: 20 }}>
         <Button
-          title={
-            product.isBought ? "Oznacz jako niekupione" : "Oznacz jako kupione"
-          }
+          title={product.isBought ? "Mark as not bought" : "Mark as bought"}
           onPress={toggleBought}
         />
       </View>
 
-      <Button title="🗑 Usuń produkt" color="red" onPress={deleteProduct} />
+      <Button title="🗑 Delete product" color="red" onPress={deleteProduct} />
     </View>
   );
 }
