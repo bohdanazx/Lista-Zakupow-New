@@ -15,7 +15,7 @@ export default function ProductDetailScreen({ route, navigation }) {
     );
 
     await AsyncStorage.setItem("zakupy", JSON.stringify(products));
-    navigation.navigate("Home");
+    navigation.goBack();
   };
 
   const deleteProduct = async () => {
@@ -32,7 +32,7 @@ export default function ProductDetailScreen({ route, navigation }) {
             let products = stored ? JSON.parse(stored) : [];
             products = products.filter((p) => p.id !== product.id);
             await AsyncStorage.setItem("zakupy", JSON.stringify(products));
-            navigation.navigate("Home");
+            navigation.goBack();
           },
         },
       ],

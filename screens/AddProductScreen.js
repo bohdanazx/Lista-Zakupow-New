@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function AddProductScreen({ navigation, route }) {
+export default function AddProductScreen({ navigation }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [store, setStore] = useState("");
@@ -27,7 +27,7 @@ export default function AddProductScreen({ navigation, route }) {
     products.unshift(newProduct);
     await AsyncStorage.setItem("zakupy", JSON.stringify(products));
 
-    navigation.navigate("Home");
+    navigation.goBack("Home");
   };
 
   return (
