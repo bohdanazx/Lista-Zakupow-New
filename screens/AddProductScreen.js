@@ -1,6 +1,8 @@
+// AddProductScreen.js
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { addDoc, collection } from "firebase/firestore";
+import { db, auth } from "../firebaseConfig";
 
 export default function AddProductScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -9,24 +11,24 @@ export default function AddProductScreen({ navigation }) {
 
   const addNewProduct = async () => {
     if (!name || !price || !store) {
-      alert("Please fill in all fields.");
+      Alert.alert("Error", "Please fill in all fields.");
       return;
     }
 
-    const newProduct = {
-      id: Date.now(),
-      name,
-      price: parseFloat(price),
-      store,
-      isBought: false,
-    };
+    try {
+      await addDoc(collection(db, "products"), {
+        name,
+        price: parseFloat(price),
+        store,
+        isBought: false,
+        userId: auth.currentUser.uid,
+        createdAt: Date.now(),
+      });
 
-    const stored = await AsyncStorage.getItem("zakupy");
-    const products = stored ? JSON.parse(stored) : [];
-    products.unshift(newProduct);
-    await AsyncStorage.setItem("zakupy", JSON.stringify(products));
-
-    navigation.goBack("Home");
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Error saving product", error.message);
+    }
   };
 
   return (

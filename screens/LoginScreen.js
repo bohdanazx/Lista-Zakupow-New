@@ -1,3 +1,4 @@
+// LoginScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -7,17 +8,25 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = () => {
-    if (username && password) {
+  const handleLogin = async () => {
+    if (!username || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, username, password);
       navigation.replace("Home");
-    } else {
-      alert("Please enter your username and password.");
+    } catch (error) {
+      alert("Login failed: " + error.message);
     }
   };
 
@@ -26,11 +35,12 @@ export default function LoginScreen({ navigation }) {
       <Text style={styles.title}>Login</Text>
 
       <TextInput
-        placeholder="Username"
+        placeholder="Email"
         style={styles.input}
         value={username}
         onChangeText={setUsername}
         autoCapitalize="none"
+        keyboardType="email-address"
       />
 
       <View style={styles.passwordContainer}>
@@ -48,6 +58,12 @@ export default function LoginScreen({ navigation }) {
       </View>
 
       <Button title="Log In" onPress={handleLogin} />
+
+      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+        <Text style={{ textAlign: "center", marginTop: 10 }}>
+          No account? Register here
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
