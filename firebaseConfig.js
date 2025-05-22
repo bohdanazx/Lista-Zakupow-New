@@ -12,9 +12,7 @@ const firebaseConfig = {
   measurementId: "G-4HG2GD4FHN",
 };
 
-// 📡 Ініціалізація Firebase App
 const app = initializeApp(firebaseConfig);
 
-// ➕ Експортуємо сервіси, щоб підключити до будь-якого екрану
 export const auth = getAuth(app);
 export const db = getFirestore(app);
